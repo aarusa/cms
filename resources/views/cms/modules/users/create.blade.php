@@ -54,6 +54,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12 col-lg-12">
+                                
                                 <div class="form-group">
                                     <label for="email2">Email Address</label>
                                     <input
@@ -62,24 +63,53 @@
                                         id="email2"
                                         placeholder="Enter Email"
                                     />
-                                    <small id="emailHelp2" class="form-text text-muted"
-                                        >We'll never share your email with anyone
-                                        else.
-                                    </small>
                                 </div>
+
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input
+                                        type="password"
+                                        class="form-control"
+                                        id="password"
+                                        placeholder="Password"
+                                    />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="defaultSelect">Role</label>
+                                    <select
+                                        class="form-select form-control"
+                                        id="defaultSelect"
+                                    >
+                                        <option>Admin</option>
+                                        <option>Editor</option>
+                                    </select>
+                                </div>
+
                             </div>
                         </div>
                     </div>
                     <div class="card-action">
                         <button class="btn btn-success">Submit</button>
-                        <button class="btn btn-danger">Cancel</button>
+                        <a href="{{ route('users.index') }}" class="btn btn-danger">Cancel</a>
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-body">
-                        
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                <label for="userImage">Upload Photo</label><br>
+                                <input
+                                    type="file"
+                                    class="form-control-file"
+                                    id="userImage"
+                                />
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

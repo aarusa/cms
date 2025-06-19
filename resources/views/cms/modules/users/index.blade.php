@@ -13,7 +13,7 @@
             </div>
             <div class="ms-md-auto py-2 py-md-0">
                 <a href="#" class="btn btn-label-info btn-round me-2">Manage Roles & Permissions</a>
-                <a href="#" class="btn btn-primary btn-round">Add New User</a>
+                <a href="{{ route('users.create') }}" class="btn btn-primary btn-round">Add New User</a>
             </div>
         </div>
         {{-- User contents --}}
@@ -44,7 +44,10 @@
                             <td>Super Admin</td>
                             <td>Active</td>
                             <td>Verified</td>
-                            <td></td>
+                            <td>
+                                <button class="btn btn-warning" disabled>Edit</button>
+                                <button class="btn btn-danger" disabled>Delete</button>
+                            </td>
                         </tr>
                         <tr>
                             <td>2</td>
@@ -53,7 +56,10 @@
                             <td>Admin</td>
                             <td>Active</td>
                             <td>Verified</td>
-                            <td></td>
+                            <td>
+                                <button class="btn btn-warning">Edit</button>
+                                <button class="btn btn-danger">Delete</button>
+                            </td>
                         </tr>
                       </tbody>
                     </table>
