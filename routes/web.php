@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CMS\DashboardController;
+use App\Http\Controllers\CMS\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +19,6 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::get('/', function () {
-    return view('cms.dashboard');
-});
+Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
+
+Route::resource('users', UserController::class);

@@ -27,10 +27,10 @@
 <div class="sidebar-wrapper scrollbar scrollbar-inner">
     <div class="sidebar-content">
     <ul class="nav nav-secondary">
-        <li class="nav-item active">
+        <li class="nav-item {{ request()->routeIs('dashboard.index') ? 'active' : '' }}">
         <a
-            data-bs-toggle="collapse"
-            href="#dashboard"
+            {{-- data-bs-toggle="collapse" --}}
+            href="{{ route('dashboard.index') }}"
             class="collapsed"
             aria-expanded="false"
         >
@@ -45,34 +45,34 @@
             <h4 class="text-section">Modules</h4>
         </li>
         {{-- Users --}}
-        <li class="nav-item">
-            <a data-bs-toggle="collapse" href="#users">
+        <li class="nav-item {{ request()->is('users*') ? 'active' : '' }}">
+            <a data-bs-toggle="collapse" href="#users" aria-expanded="{{ request()->is('users*') ? 'true' : 'false' }}">
                 <i class="fas fa-user"></i>
                 <p>Users</p>
                 <span class="caret"></span>
             </a>
-            <div class="collapse" id="users">
+            <div class="collapse {{ request()->is('users*') ? 'show' : '' }}" id="users">
                 <ul class="nav nav-collapse">
-                    <li>
-                        <a href="#">
+                    <li class="{{ request()->routeIs('users.index') ? 'active' : '' }}">
+                        <a href="{{ route('users.index') }}">
+                        <span class="sub-item">View Users</span>
+                        </a>
+                    </li>
+                    <li class="{{ request()->routeIs('users.create') ? 'active' : '' }}">
+                        <a href="{{ route('users.create') }}">
                         <span class="sub-item">Add User</span>
                         </a>
                     </li>
-                    <li>
+                    {{-- <li>
                         <a href="#">
-                        <span class="sub-item">View Users</span>
+                        <span class="sub-item">View Roles</span>
                         </a>
                     </li>
                     <li>
                         <a href="#">
                         <span class="sub-item">Add Role</span>
                         </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                        <span class="sub-item">View Roles</span>
-                        </a>
-                    </li>
+                    </li> --}}
                 </ul>
             </div>
         </li>
