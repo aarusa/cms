@@ -13,9 +13,10 @@
             </div>
         </div>
         
-        <form action="{{ route('users.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('users.update', $user->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
-        
+        @method('PUT')
+
             <div class="row">
                 <div class="col-md-8">
                     <div class="card">
@@ -29,7 +30,7 @@
                                             class="form-control @error('fname') is-invalid @enderror"
                                             id="fname"
                                             name="fname"
-                                            value="{{ old('fname') }}"
+                                            value="{{ old('fname', $user->fname) }}"
                                             placeholder="Enter First Name"
                                         />
                                         @error('fname')
@@ -45,7 +46,7 @@
                                             class="form-control @error('mname') is-invalid @enderror"
                                             id="mname"
                                             name="mname"
-                                            value="{{ old('mname') }}"
+                                            value="{{ old('mname', $user->mname) }}"
                                             placeholder="Enter Middle Name"
                                         />
                                         @error('mname')
@@ -61,7 +62,7 @@
                                             class="form-control @error('lname') is-invalid @enderror"
                                             id="lname"
                                             name="lname"
-                                            value="{{ old('lname') }}"
+                                            value="{{ old('lname', $user->lname) }}"
                                             placeholder="Enter Last Name"
                                         />
                                         @error('lname')
@@ -80,7 +81,7 @@
                                             class="form-control @error('email') is-invalid @enderror"
                                             id="email2"
                                             name="email"
-                                            value="{{ old('email') }}"
+                                            value="{{ old('email', $user->email) }}"
                                             placeholder="Enter Email"
                                         />
                                         @error('email')
@@ -95,7 +96,7 @@
                                             class="form-control @error('phone') is-invalid @enderror"
                                             id="phone"
                                             name="phone"
-                                            value="{{ old('phone') }}"
+                                            value="{{ old('phone', $user->phone) }}"
                                             placeholder="Enter Phone Number"
                                         />
                                         @error('phone')
@@ -118,17 +119,6 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="password_confirmation">Confirm Password</label>
-                                        <input
-                                            type="password"
-                                            class="form-control"
-                                            id="password_confirmation"
-                                            name="password_confirmation"
-                                            placeholder="Confirm Password"
-                                        />
-                                    </div>
-
-                                    <div class="form-group">
                                         <label for="defaultSelect">Role</label>
                                         <select
                                             class="form-select form-control @error('role') is-invalid @enderror"
@@ -137,7 +127,7 @@
                                         >
                                             <option value="">Select Role</option>
                                             @foreach($roles as $role)
-                                                <option value="{{ $role->name }}" {{ old('role') == $role->name ? 'selected' : '' }}>
+                                                <option value="{{ $role->name }}" {{ $user->roles->first()->name == $role->name ? 'selected' : '' }}>
                                                     {{ $role->name }}
                                                 </option>
                                             @endforeach
@@ -151,7 +141,7 @@
                             </div>
                         </div>
                         <div class="card-action">
-                            <button class="btn btn-success" type="submit">Submit</button>
+                            <button class="btn btn-success" type="submit">Update</button>
                             <a href="{{ route('users.index') }}" class="btn btn-danger">Cancel</a>
                         </div>
                     </div>

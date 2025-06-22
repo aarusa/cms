@@ -4,6 +4,10 @@
 @section('title', 'Dashboard')
 
 @section('content')
+
+@php
+    $loggedInUser = auth()->user();
+@endphp
     
     <div class="page-inner">
         <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
@@ -28,39 +32,51 @@
                       <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">First</th>
-                            <th scope="col">Last</th>
+                            <th scope="col">Name</th>
                             <th scope="col">Role</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Verification</th>
+                            {{-- <th scope="col">Status</th>
+                            <th scope="col">Verification</th> --}}
                             <th scope="col">Actions</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Arusha</td>
-                            <td>Shahi</td>
-                            <td>Super Admin</td>
-                            <td>Active</td>
-                            <td>Verified</td>
-                            <td>
-                                <button class="btn btn-warning" disabled>Edit</button>
-                                <button class="btn btn-danger" disabled>Delete</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Ashish</td>
-                            <td>Shahi</td>
-                            <td>Admin</td>
-                            <td>Active</td>
-                            <td>Verified</td>
-                            <td>
-                                <button class="btn btn-warning">Edit</button>
-                                <button class="btn btn-danger">Delete</button>
-                            </td>
-                        </tr>
+                
+                        @if($users->count() > 0)
+                          @foreach($users as $index => $user)
+                            <tr>
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ $user->fname }} {{ $user->mname }} {{ $user->lname }}</td>
+                                <td>{{ implode(', ', $user->getRoleNames()->toArray()) }}</td>
+                                {{-- <td></td>
+                                <td></td> --}}
+                                <td>
+                                  {{-- Show Edit ONLY if logged-in user is Super Admin --}}
+                                  @if(
+                                      ($loggedInUser->hasAnyRole(['Admin', 'Super Admin'])) 
+                                      && !$user->hasRole('Super Admin')
+                                  )
+                                      <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning">Edit</a>
+                                  @endif
+
+                                 {{-- Delete button for Admin or Super Admin users, but only if the listed user is NOT Super Admin --}}
+                                  @if(
+                                      ($loggedInUser->hasAnyRole(['Admin', 'Super Admin'])) 
+                                      && !$user->hasRole('Super Admin')
+                                  )
+                                      <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline-block">
+                                          @csrf
+                                          @method('DELETE')
+                                          <button type="submit" class="btn btn-danger"
+                                              onclick="return confirm('Are you sure you want to delete this user?');">
+                                              Delete
+                                          </button>
+                                      </form>
+                                  @endif
+
+                                </td>
+                            </tr>
+                          @endforeach
+                        @endif
                       </tbody>
                     </table>
                   </div>
