@@ -327,11 +327,19 @@
                 aria-expanded="false"
                 >
                 <div class="avatar-sm">
+                    @if(Auth::user()->image)
+                    <img
+                    src="{{ Auth::user()->image }}"
+                    alt="{{ Auth::user()->fname }}"
+                    class="avatar-img rounded-circle"
+                    />
+                    @else
                     <img
                     src="{{ asset('assets/cms/img/profile.jpg') }}"
                     alt="..."
                     class="avatar-img rounded-circle"
                     />
+                    @endif
                 </div>
                 <span class="profile-username">
                     <span class="op-7">Hi,</span>
@@ -343,11 +351,19 @@
                     <li>
                     <div class="user-box">
                         <div class="avatar-lg">
+                        @if(Auth::user()->image)
+                        <img
+                            src="{{ Auth::user()->image }}"
+                            alt="{{ Auth::user()->fname }}"
+                            class="avatar-img rounded"
+                        />
+                        @else
                         <img
                             src="{{ asset('assets/cms/img/profile.jpg') }}"
                             alt="image profile"
                             class="avatar-img rounded"
                         />
+                        @endif
                         </div>
                         <div class="u-text">
                         <h4>{{ Auth::user()->fname }}</h4>

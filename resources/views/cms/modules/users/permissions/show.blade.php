@@ -217,22 +217,12 @@
 <script>
     // Check for success message
     @if (session('success'))
-        swal({
-            title: "Success!",
-            text: "{{ session('success') }}",
-            icon: "success",
-            button: "OK",
-        });
+        showAlertOnce('success', "{{ session('success') }}");
     @endif
 
     // Check for error message
     @if (session('error'))
-        swal({
-            title: "Error!",
-            text: "{{ session('error') }}",
-            icon: "error",
-            button: "OK",
-        });
+        showAlertOnce('error', "{{ session('error') }}");
     @endif
 </script>
 @endpush 

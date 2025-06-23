@@ -148,19 +148,68 @@
                 </div>
                 <div class="col-md-4">
                     <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-camera me-2"></i>Profile Photo
+                            </div>
+                        </div>
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                    <label for="userImage">Upload Photo</label><br>
+                            <div class="form-group">
+                                <label for="image">Upload Photo</label>
+                                <div class="custom-file">
                                     <input
                                         type="file"
-                                        class="form-control-file"
-                                        id="userImage"
+                                        class="form-control @error('image') is-invalid @enderror"
+                                        id="image"
+                                        name="image"
+                                        accept="image/*"
+                                        onchange="previewImage(this)"
                                     />
+                                    <small class="form-text text-muted">
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        Only image files (JPG, PNG, GIF) up to 2MB are allowed.
+                                    </small>
+                                    @error('image')
+                                        <span class="invalid-feedback" role="alert">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                            
+                            <!-- Image Preview -->
+                            <div id="imagePreview" class="mt-3" style="display: none;">
+                                <div class="text-center">
+                                    <h6 class="text-muted mb-2">Image Preview</h6>
+                                    <div class="border rounded p-2 bg-light">
+                                        <img id="preview" src="" alt="Preview" class="img-fluid rounded" style="max-height: 200px; max-width: 100%;">
+                                    </div>
+                                    <div class="mt-2">
+                                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeImage()">
+                                            <i class="fas fa-trash me-1"></i>Remove Image
+                                        </button>
                                     </div>
                                 </div>
                             </div>
+                            
+                            <!-- Current User Image -->
+                            @if($user->image)
+                                <div id="currentImage" class="mt-3 text-center">
+                                    <div class="border rounded p-2 bg-light">
+                                        <h6 class="text-muted mb-2">Current Photo</h6>
+                                        <img src="{{ asset($user->image) }}" alt="Current Photo" class="img-fluid rounded" style="max-height: 200px; max-width: 100%;">
+                                        <div class="mt-2">
+                                            <small class="text-muted">Upload a new image to replace this one</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            @else
+                                <!-- Default Avatar -->
+                                <div id="defaultAvatar" class="mt-3 text-center">
+                                    <div class="border rounded p-3 bg-light">
+                                        <i class="fas fa-user-circle fa-4x text-muted mb-2"></i>
+                                        <p class="text-muted small mb-0">No image selected</p>
+                                    </div>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -170,3 +219,60 @@
     </div>
 
 @endsection
+
+@push('scripts')
+<script>
+    function previewImage(input) {
+        const file = input.files[0];
+        const preview = document.getElementById('preview');
+        const imagePreview = document.getElementById('imagePreview');
+        const defaultAvatar = document.getElementById('defaultAvatar');
+        const currentImage = document.getElementById('currentImage');
+        
+        // Validate file type
+        if (file) {
+            const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+            if (!validTypes.includes(file.type)) {
+                alert('Please select a valid image file (JPG, PNG, or GIF).');
+                input.value = '';
+                return;
+            }
+            
+            // Validate file size (2MB = 2 * 1024 * 1024 bytes)
+            const maxSize = 2 * 1024 * 1024;
+            if (file.size > maxSize) {
+                alert('File size must be less than 2MB.');
+                input.value = '';
+                return;
+            }
+            
+            // Show preview
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                imagePreview.style.display = 'block';
+                if (defaultAvatar) defaultAvatar.style.display = 'none';
+                if (currentImage) currentImage.style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        } else {
+            // Hide preview and show appropriate default
+            imagePreview.style.display = 'none';
+            if (defaultAvatar) defaultAvatar.style.display = 'block';
+            if (currentImage) currentImage.style.display = 'block';
+        }
+    }
+    
+    function removeImage() {
+        const input = document.getElementById('image');
+        const imagePreview = document.getElementById('imagePreview');
+        const defaultAvatar = document.getElementById('defaultAvatar');
+        const currentImage = document.getElementById('currentImage');
+        
+        input.value = '';
+        imagePreview.style.display = 'none';
+        if (defaultAvatar) defaultAvatar.style.display = 'block';
+        if (currentImage) currentImage.style.display = 'block';
+    }
+</script>
+@endpush
