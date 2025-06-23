@@ -16,7 +16,9 @@
                   <h6 class="op-7 mb-2">Overview of all user roles in the system</h6>
               </div>
               <div class="ms-md-auto py-2 py-md-0">
+                @can('add role')
                   <a href="{{ route('roles.create') }}" class="btn btn-primary btn-round">Add New Role</a>
+                @endcan
               </div>
           </div>
           {{-- User contents --}}
@@ -44,14 +46,19 @@
                                   <td>{{ $index + 1 }}</td>
                                   <td>{{ $role->name }}</td>
                                   <td>
+                                    @can('manage permission')
                                       <a href="{{ route('permissions.role', $role->id) }}" class="btn btn-info btn-sm">
                                           Manage Permissions 
                                           <span class="badge bg-light text-dark ms-1">{{ $role->permissions->count() }}</span>
                                       </a>
+                                    @endcan
                                   </td>
                                   <td>
                                     @if(strtolower($role->name) !== 'super admin')
+                                    @can('edit role')
                                         <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                    @endcan
+                                    @can('delete role')
 
                                         <form action="{{ route('roles.destroy', $role->id) }}" method="POST" style="display:inline-block">
                                           @csrf
@@ -61,6 +68,7 @@
                                               Delete
                                           </button>
                                       </form>
+                                    @endcan
                                     @else
                                         <span class="badge bg-secondary">Protected</span>
                                     @endif

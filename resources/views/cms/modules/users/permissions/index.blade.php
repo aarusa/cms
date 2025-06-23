@@ -16,7 +16,9 @@
                 <h6 class="op-7 mb-2">Overview of all permissions and their role assignments</h6>
             </div>
             <div class="ms-md-auto py-2 py-md-0">
-                <a href="{{ route('permissions.create') }}" class="btn btn-primary btn-round">Add New Permission</a>
+                @can('add permission')
+                    <a href="{{ route('permissions.create') }}" class="btn btn-primary btn-round">Add New Permission</a>
+                @endcan
             </div>
         </div>
         
@@ -59,9 +61,13 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <a href="{{ route('permissions.show', $permission->id) }}" class="btn btn-info btn-sm">View Details</a>
-                                                <a href="{{ route('permissions.edit', $permission->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                                
+                                                @can('view permissions')
+                                                    <a href="{{ route('permissions.show', $permission->id) }}" class="btn btn-info btn-sm">View Details</a>
+                                                @endcan
+                                                @can('edit permission')
+                                                    <a href="{{ route('permissions.edit', $permission->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                                @endcan
+                                                @can('delete permission')
                                                 @if($permission->roles()->count() == 0)
                                                     <form action="{{ route('permissions.destroy', $permission->id) }}" method="POST" style="display:inline-block">
                                                         @csrf
@@ -71,6 +77,7 @@
                                                             Delete
                                                         </button>
                                                     </form>
+                                                @endcan
                                                 @else
                                                     <!-- <span class="badge bg-secondary">Protected</span> -->
                                                 @endif

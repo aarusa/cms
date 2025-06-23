@@ -60,8 +60,10 @@
 
                                   {{-- Allow actions only if logged-in user is Admin/Super Admin and the listed user is not Super Admin --}}
                                   @if($isLoggedInSuper && !$isUserSuperAdmin)
+                                    @can('edit user')
                                       <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning btn-sm">Edit</a>
-
+                                    @endcan
+                                    @can('delete user')
                                       <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline-block">
                                           @csrf
                                           @method('DELETE')
@@ -70,6 +72,7 @@
                                               Delete
                                           </button>
                                       </form>
+                                    @endcan
                                   @else
                                       <span class="badge bg-secondary">Protected</span>
                                   @endif

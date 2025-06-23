@@ -18,7 +18,9 @@
             </div>
             <div class="ms-md-auto py-2 py-md-0">
                 <a href="{{ route('roles.index') }}" class="btn btn-label-info btn-round me-2">Back to Roles</a>
-                <a href="{{ route('permissions.index') }}" class="btn btn-info btn-round">All Permissions</a>
+                @can('view permissions')
+                    <a href="{{ route('permissions.index') }}" class="btn btn-info btn-round">All Permissions</a>
+                @endcan
             </div>
         </div>
         

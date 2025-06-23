@@ -17,7 +17,9 @@
             </div>
             <div class="ms-md-auto py-2 py-md-0">
                 <a href="{{ route('permissions.index') }}" class="btn btn-label-info btn-round me-2">Back to Permissions</a>
-                <a href="{{ route('permissions.edit', $permission->id) }}" class="btn btn-warning btn-round">Edit Permission</a>
+                @can('edit permission')
+                    <a href="{{ route('permissions.edit', $permission->id) }}" class="btn btn-warning btn-round">Edit Permission</a>
+                @endcan
             </div>
         </div>
         
@@ -56,12 +58,6 @@
                             </div>
                         </div>
                         
-                        <div class="row mb-3">
-                            <div class="col-sm-4"><strong>Permission ID:</strong></div>
-                            <div class="col-sm-8">
-                                <code>{{ $permission->id }}</code>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -90,7 +86,6 @@
                                                     <i class="fas fa-user-shield text-primary me-2"></i>
                                                     <span class="fw-bold text-primary">{{ $role->name }}</span>
                                                 </div>
-                                                <small class="text-muted">ID: {{ $role->id }}</small>
                                             </div>
                                             @if($role->name === 'Super Admin')
                                                 <span class="badge bg-danger ms-2">
@@ -179,19 +174,23 @@
                                                               method="POST" style="display:inline-block">
                                                             @csrf
                                                             @method('DELETE')
+                                                            @can('manage permission')
                                                             <button type="submit" class="btn btn-danger btn-sm"
                                                                     onclick="return confirm('Remove this permission from {{ $role->name }}?')">
                                                                 <i class="fas fa-minus-circle me-1"></i>Remove
                                                             </button>
+                                                            @endcan
                                                         </form>
                                                     @else
                                                         <form action="{{ route('permissions.assign', ['roleId' => $role->id, 'permissionId' => $permission->id]) }}" 
                                                               method="POST" style="display:inline-block">
                                                             @csrf
+                                                            @can('manage permission')
                                                             <button type="submit" class="btn btn-success btn-sm">
                                                                 <i class="fas fa-plus-circle me-1"></i>Assign
                                                             </button>
                                                         </form>
+                                                        @endcan
                                                     @endif
                                                 @else
                                                     <span class="text-muted">
