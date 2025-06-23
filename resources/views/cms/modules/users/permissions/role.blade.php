@@ -79,34 +79,33 @@
                                     </thead>
                                     <tbody>
                                         @foreach($rolePermissions as $permission)
-                                            @if(auth()->user()->hasRole('Super Admin') || !in_array($permission->name, $hiddenPermissions))
-                                                <tr>
-                                                    <td>
-                                                        <span class="badge bg-success">{{ $permission->name }}</span>
-                                                    </td>
-                                                    <td>
-                                                        @php
-                                                            $canModifySuperAdmin = $loggedInUser->hasRole('Super Admin');
-                                                            $isSuperAdminRole = $role->name === 'Super Admin';
-                                                            $canModify = !$isSuperAdminRole || $canModifySuperAdmin;
-                                                        @endphp
-                                                        
-                                                        @if($canModify)
-                                                            <form action="{{ route('permissions.revoke', ['roleId' => $role->id, 'permissionId' => $permission->id]) }}" 
-                                                                  method="POST" style="display:inline-block">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button type="submit" class="btn btn-danger btn-sm"
-                                                                        onclick="return confirm('Remove permission \'{{ $permission->name }}\' from {{ $role->name }}?')">
-                                                                    Remove
-                                                                </button>
-                                                            </form>
-                                                        @else
-                                                            <span class="text-muted">Protected</span>
-                                                        @endif
-                                                    </td>
-                                                </tr>
-                                            @endif
+                                            <tr>
+                                                <td>
+                                                    <span class="badge bg-success">{{ $permission->name }}</span>
+                                                </td>
+                                                <td>
+                                                    @php
+                                                        $canModifySuperAdmin = $loggedInUser->hasRole('Super Admin');
+                                                        $isSuperAdminRole = $role->name === 'Super Admin';
+                                                        $canModify = !$isSuperAdminRole || $canModifySuperAdmin;
+                                                        $isHiddenPermission = in_array($permission->name, $hiddenPermissions);
+                                                    @endphp
+                                                    @if($canModify && (!$isHiddenPermission || $loggedInUser->hasRole('Super Admin')))
+                                                        <form action="{{ route('permissions.revoke', ['roleId' => $role->id, 'permissionId' => $permission->id]) }}" 
+                                                              method="POST" style="display:inline-block">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger btn-sm"
+                                                                    @if($isHiddenPermission && !$loggedInUser->hasRole('Super Admin')) disabled @endif
+                                                                    onclick="return confirm('Remove permission \'{{ $permission->name }}\' from {{ $role->name }}?')">
+                                                                Remove
+                                                            </button>
+                                                        </form>
+                                                    @else
+                                                        <button class="btn btn-danger btn-sm" disabled>Remove</button>
+                                                    @endif
+                                                </td>
+                                            </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -144,32 +143,31 @@
                                     </thead>
                                     <tbody>
                                         @foreach($availablePermissions as $permission)
-                                            @if(auth()->user()->hasRole('Super Admin') || !in_array($permission->name, $hiddenPermissions))
-                                                <tr>
-                                                    <td>
-                                                        <span class="badge bg-light text-dark">{{ $permission->name }}</span>
-                                                    </td>
-                                                    <td>
-                                                        @php
-                                                            $canModifySuperAdmin = $loggedInUser->hasRole('Super Admin');
-                                                            $isSuperAdminRole = $role->name === 'Super Admin';
-                                                            $canModify = !$isSuperAdminRole || $canModifySuperAdmin;
-                                                        @endphp
-                                                        
-                                                        @if($canModify)
-                                                            <form action="{{ route('permissions.assign', ['roleId' => $role->id, 'permissionId' => $permission->id]) }}" 
-                                                                  method="POST" style="display:inline-block">
-                                                                @csrf
-                                                                <button type="submit" class="btn btn-success btn-sm">
-                                                                    Assign
-                                                                </button>
-                                                            </form>
-                                                        @else
-                                                            <span class="text-muted">Protected</span>
-                                                        @endif
-                                                    </td>
-                                                </tr>
-                                            @endif
+                                            <tr>
+                                                <td>
+                                                    <span class="badge bg-light text-dark">{{ $permission->name }}</span>
+                                                </td>
+                                                <td>
+                                                    @php
+                                                        $canModifySuperAdmin = $loggedInUser->hasRole('Super Admin');
+                                                        $isSuperAdminRole = $role->name === 'Super Admin';
+                                                        $canModify = !$isSuperAdminRole || $canModifySuperAdmin;
+                                                        $isHiddenPermission = in_array($permission->name, $hiddenPermissions);
+                                                    @endphp
+                                                    @if($canModify && (!$isHiddenPermission || $loggedInUser->hasRole('Super Admin')))
+                                                        <form action="{{ route('permissions.assign', ['roleId' => $role->id, 'permissionId' => $permission->id]) }}" 
+                                                              method="POST" style="display:inline-block">
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-success btn-sm"
+                                                                    @if($isHiddenPermission && !$loggedInUser->hasRole('Super Admin')) disabled @endif>
+                                                                Assign
+                                                            </button>
+                                                        </form>
+                                                    @else
+                                                        <button class="btn btn-success btn-sm" disabled>Assign</button>
+                                                    @endif
+                                                </td>
+                                            </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
