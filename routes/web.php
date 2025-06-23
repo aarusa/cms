@@ -6,6 +6,7 @@ use App\Http\Controllers\CMS\Auth\RegisterController;
 use App\Http\Controllers\CMS\DashboardController;
 use App\Http\Controllers\CMS\UserController;
 use App\Http\Controllers\CMS\RoleController;
+use App\Http\Controllers\CMS\PermissionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,9 +44,17 @@ Route::middleware('auth')->group(function () {
     // Users module - only for Super Admin and Admin roles
     Route::middleware('role:Super Admin|Admin')->group(function () {
         Route::resource('users', UserController::class);
+        Route::resource('permissions', PermissionController::class);
+        
+        // Role-specific permission routes
+        Route::get('permissions/role/{roleId}', [PermissionController::class, 'rolePermissions'])->name('permissions.role');
+        Route::post('permissions/role/{roleId}/permission/{permissionId}/assign', [PermissionController::class, 'assignPermission'])->name('permissions.assign');
+        Route::delete('permissions/role/{roleId}/permission/{permissionId}/revoke', [PermissionController::class, 'revokePermission'])->name('permissions.revoke');
+
+        Route::resource('roles', RoleController::class);
+
     });
 
-    Route::resource('roles', RoleController::class);
 
     // Other authenticated user routes
     Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');

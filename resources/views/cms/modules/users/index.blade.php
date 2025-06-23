@@ -16,8 +16,9 @@
                 <h6 class="op-7 mb-2">Overview of all registered users in the system</h6>
             </div>
             <div class="ms-md-auto py-2 py-md-0">
-                <a href="{{ route('roles.index') }}" class="btn btn-label-info btn-round me-2">Manage Roles & Permissions</a>
-                <a href="{{ route('users.create') }}" class="btn btn-primary btn-round">Add New User</a>
+            <a href="{{ route('roles.index') }}" class="btn btn-label-info btn-round me-2">Manage Roles</a>
+            <a href="{{ route('permissions.index') }}" class="btn btn-label-info btn-round me-2">Manage Permissions</a>
+            <a href="{{ route('users.create') }}" class="btn btn-primary btn-round">Add New User</a>
             </div>
         </div>
         {{-- User contents --}}
@@ -53,12 +54,12 @@
 
                                   {{-- Allow actions only if logged-in user is Admin/Super Admin and the listed user is not Super Admin --}}
                                   @if($isLoggedInSuper && !$isUserSuperAdmin)
-                                      <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning">Edit</a>
+                                      <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning btn-sm">Edit</a>
 
                                       <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline-block">
                                           @csrf
                                           @method('DELETE')
-                                          <button type="submit" class="btn btn-danger"
+                                          <button type="submit" class="btn btn-danger btn-sm"
                                               onclick="return confirm('Are you sure you want to delete this user?');">
                                               Delete
                                           </button>

@@ -17,7 +17,7 @@ class RoleController extends Controller
     {
         $roles = Role::all();
 
-        return view('cms.modules.roles.index', compact('roles'));
+        return view('cms.modules.users.roles.index', compact('roles'));
     }
 
     /**
@@ -27,7 +27,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        return view('cms.modules.roles.create');
+        return view('cms.modules.users.roles.create');
     }
 
     /**
@@ -74,7 +74,7 @@ class RoleController extends Controller
     {
         $role = Role::findOrFail($id);
 
-        return view('cms.modules.roles.edit', compact('role'));
+        return view('cms.modules.users.roles.edit', compact('role'));
     }
 
     /**

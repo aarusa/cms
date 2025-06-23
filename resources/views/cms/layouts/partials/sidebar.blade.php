@@ -45,13 +45,13 @@
             <h4 class="text-section">Modules</h4>
         </li>
         {{-- Users --}}
-        <li class="nav-item {{ (request()->is('users*') || request()->is('roles*')) ? 'active' : '' }}">
-            <a data-bs-toggle="collapse" href="#users" aria-expanded="{{ (request()->is('users*') || request()->is('roles*')) ? 'true' : 'false' }}">
+        <li class="nav-item {{ (request()->is('users*') || request()->is('roles*') || request()->is('permissioins*')) ? 'active' : '' }}">
+            <a data-bs-toggle="collapse" href="#users" aria-expanded="{{ (request()->is('users*') || request()->is('roles*') || request()->is('permissions*')) ? 'true' : 'false' }}">
                 <i class="fas fa-user"></i>
                 <p>Users</p>
                 <span class="caret"></span>
             </a>
-            <div class="collapse {{ (request()->is('users*') || request()->is('roles*')) ? 'show' : '' }}" id="users">
+            <div class="collapse {{ (request()->is('users*') || request()->is('roles*') || request()->is('permissions*')) ? 'show' : '' }}" id="users">
                 <ul class="nav nav-collapse">
                     <li class="{{ request()->routeIs('users.index') ? 'active' : '' }}">
                         <a href="{{ route('users.index') }}">
@@ -73,26 +73,14 @@
                         <span class="sub-item">Add Role</span>
                         </a>
                     </li>
-                </ul>
-            </div>
-        </li>
-        {{-- Customer --}}
-        <li class="nav-item">
-            <a data-bs-toggle="collapse" href="#customers">
-                <i class="fas fa-users"></i>
-                <p>Customers</p>
-                <span class="caret"></span>
-            </a>
-            <div class="collapse" id="customers">
-                <ul class="nav nav-collapse">
-                    <li>
-                        <a href="#">
-                        <span class="sub-item">Add Customer</span>
+                    <li class="{{ request()->routeIs('permissions.index') ? 'active' : '' }}">
+                        <a href="{{ route('permissions.index') }}">
+                        <span class="sub-item">View Permissions</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="#">
-                        <span class="sub-item">View Customer</span>
+                    <li class="{{ request()->routeIs('permissions.create') ? 'active' : '' }}">
+                        <a href="{{ route('permissions.create') }}">
+                        <span class="sub-item">Add Permissions</span>
                         </a>
                     </li>
                 </ul>

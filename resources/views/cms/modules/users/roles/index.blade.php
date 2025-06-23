@@ -43,15 +43,20 @@
                               <tr>
                                   <td>{{ $index + 1 }}</td>
                                   <td>{{ $role->name }}</td>
-                                  <td><a href="#" class="btn btn-info">Manage Permissions</a></td>
+                                  <td>
+                                      <a href="{{ route('permissions.role', $role->id) }}" class="btn btn-info btn-sm">
+                                          Manage Permissions 
+                                          <span class="badge bg-light text-dark ms-1">{{ $role->permissions->count() }}</span>
+                                      </a>
+                                  </td>
                                   <td>
                                     @if(strtolower($role->name) !== 'super admin')
-                                        <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-warning">Edit</a>
+                                        <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-warning btn-sm">Edit</a>
 
                                         <form action="{{ route('roles.destroy', $role->id) }}" method="POST" style="display:inline-block">
                                           @csrf
                                           @method('DELETE')
-                                          <button type="submit" class="btn btn-danger"
+                                          <button type="submit" class="btn btn-danger btn-sm"
                                               onclick="return confirm('Are you sure you want to delete this role?');">
                                               Delete
                                           </button>
