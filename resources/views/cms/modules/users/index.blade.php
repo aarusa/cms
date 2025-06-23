@@ -16,7 +16,7 @@
                 <h6 class="op-7 mb-2">Overview of all registered users in the system</h6>
             </div>
             <div class="ms-md-auto py-2 py-md-0">
-                <a href="#" class="btn btn-label-info btn-round me-2">Manage Roles & Permissions</a>
+                <a href="{{ route('roles.index') }}" class="btn btn-label-info btn-round me-2">Manage Roles & Permissions</a>
                 <a href="{{ route('users.create') }}" class="btn btn-primary btn-round">Add New User</a>
             </div>
         </div>
@@ -34,8 +34,6 @@
                             <th scope="col">#</th>
                             <th scope="col">Name</th>
                             <th scope="col">Role</th>
-                            {{-- <th scope="col">Status</th>
-                            <th scope="col">Verification</th> --}}
                             <th scope="col">Actions</th>
                         </tr>
                       </thead>
@@ -47,22 +45,16 @@
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $user->fname }} {{ $user->mname }} {{ $user->lname }}</td>
                                 <td>{{ implode(', ', $user->getRoleNames()->toArray()) }}</td>
-                                {{-- <td></td>
-                                <td></td> --}}
                                 <td>
-                                  {{-- Show Edit ONLY if logged-in user is Super Admin --}}
-                                  @if(
-                                      ($loggedInUser->hasAnyRole(['Admin', 'Super Admin'])) 
-                                      && !$user->hasRole('Super Admin')
-                                  )
-                                      <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning">Edit</a>
-                                  @endif
+                                  @php
+                                      $isLoggedInSuper = $loggedInUser->hasAnyRole(['Admin', 'Super Admin']);
+                                      $isUserSuperAdmin = $user->hasRole('Super Admin');
+                                  @endphp
 
-                                 {{-- Delete button for Admin or Super Admin users, but only if the listed user is NOT Super Admin --}}
-                                  @if(
-                                      ($loggedInUser->hasAnyRole(['Admin', 'Super Admin'])) 
-                                      && !$user->hasRole('Super Admin')
-                                  )
+                                  {{-- Allow actions only if logged-in user is Admin/Super Admin and the listed user is not Super Admin --}}
+                                  @if($isLoggedInSuper && !$isUserSuperAdmin)
+                                      <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning">Edit</a>
+
                                       <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline-block">
                                           @csrf
                                           @method('DELETE')
@@ -71,6 +63,8 @@
                                               Delete
                                           </button>
                                       </form>
+                                  @else
+                                      <span class="badge bg-secondary">Protected</span>
                                   @endif
 
                                 </td>
@@ -88,3 +82,27 @@
     </div>
     
 @endsection
+
+@push('scripts')
+  <script>
+      // Check for success message
+      @if (session('success'))
+          swal({
+              title: "Success!",
+              text: "{{ session('success') }}",
+              icon: "success",
+              button: "OK",
+          });
+      @endif
+
+      // Check for error message
+      @if (session('error'))
+          swal({
+              title: "Error!",
+              text: "{{ session('error') }}",
+              icon: "error",
+              button: "OK",
+          });
+      @endif
+  </script>
+@endpush

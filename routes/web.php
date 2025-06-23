@@ -5,6 +5,7 @@ use App\Http\Controllers\CMS\Auth\LoginController;
 use App\Http\Controllers\CMS\Auth\RegisterController;
 use App\Http\Controllers\CMS\DashboardController;
 use App\Http\Controllers\CMS\UserController;
+use App\Http\Controllers\CMS\RoleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,6 +44,8 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:Super Admin|Admin')->group(function () {
         Route::resource('users', UserController::class);
     });
+
+    Route::resource('roles', RoleController::class);
 
     // Other authenticated user routes
     Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');

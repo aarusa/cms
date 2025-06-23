@@ -45,13 +45,13 @@
             <h4 class="text-section">Modules</h4>
         </li>
         {{-- Users --}}
-        <li class="nav-item {{ request()->is('users*') ? 'active' : '' }}">
-            <a data-bs-toggle="collapse" href="#users" aria-expanded="{{ request()->is('users*') ? 'true' : 'false' }}">
+        <li class="nav-item {{ (request()->is('users*') || request()->is('roles*')) ? 'active' : '' }}">
+            <a data-bs-toggle="collapse" href="#users" aria-expanded="{{ (request()->is('users*') || request()->is('roles*')) ? 'true' : 'false' }}">
                 <i class="fas fa-user"></i>
                 <p>Users</p>
                 <span class="caret"></span>
             </a>
-            <div class="collapse {{ request()->is('users*') ? 'show' : '' }}" id="users">
+            <div class="collapse {{ (request()->is('users*') || request()->is('roles*')) ? 'show' : '' }}" id="users">
                 <ul class="nav nav-collapse">
                     <li class="{{ request()->routeIs('users.index') ? 'active' : '' }}">
                         <a href="{{ route('users.index') }}">
@@ -63,16 +63,16 @@
                         <span class="sub-item">Add User</span>
                         </a>
                     </li>
-                    {{-- <li>
-                        <a href="#">
+                    <li class="{{ request()->routeIs('roles.index') ? 'active' : '' }}">
+                        <a href="{{ route('roles.index') }}">
                         <span class="sub-item">View Roles</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="#">
+                    <li class="{{ request()->routeIs('roles.create') ? 'active' : '' }}">
+                        <a href="{{ route('roles.create') }}">
                         <span class="sub-item">Add Role</span>
                         </a>
-                    </li> --}}
+                    </li>
                 </ul>
             </div>
         </li>

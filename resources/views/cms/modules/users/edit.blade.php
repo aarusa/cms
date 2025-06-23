@@ -8,8 +8,8 @@
     <div class="page-inner">
         <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
             <div>
-                <h3 class="fw-bold mb-3">Add New User</h3>
-                <h6 class="op-7 mb-2">Fill out the form to create a new system user.</h6>
+                <h3 class="fw-bold mb-3">Edit User</h3>
+                <h6 class="op-7 mb-2">Fill out the form to edit user.</h6>
             </div>
         </div>
         

@@ -64,4 +64,5 @@
 </script>
 
 <!-- Page Specific Scripts -->
+
 @stack('scripts')
