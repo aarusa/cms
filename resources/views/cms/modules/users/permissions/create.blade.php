@@ -46,8 +46,8 @@
                             </div>
                             
                             <div class="form-group mt-4">
-                                <button type="submit" class="btn btn-primary">Create Permission</button>
-                                <a href="{{ route('permissions.index') }}" class="btn btn-secondary">Cancel</a>
+                                <button type="submit" class="btn btn-success">Save</button>
+                                <a href="{{ route('permissions.index') }}" class="btn btn-danger">Cancel</a>
                             </div>
                         </form>
                     </div>

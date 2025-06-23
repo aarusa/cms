@@ -1,7 +1,7 @@
 {{-- File: resources/views/cms/dashboard.blade.php --}}
 @extends('cms.layouts.master')
 
-@section('title', 'Dashboard')
+@section('title', 'Edit Role')
 
 @section('content')
     

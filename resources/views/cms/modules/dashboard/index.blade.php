@@ -1,7 +1,7 @@
 {{-- File: resources/views/cms/dashboard.blade.php --}}
 @extends('cms.layouts.master')
 
-@section('title', 'Dashboard')
+@section('title', 'Dashboard | CykleCMS')
 
 @section('content')
     
@@ -13,7 +13,7 @@
             </div>
             <div class="ms-md-auto py-2 py-md-0">
             <a href="#" class="btn btn-label-info btn-round me-2">Manage</a>
-            <a href="#" class="btn btn-primary btn-round">Add Customer</a>
+            <a href="#" class="btn btn-primary btn-round">Add Client</a>
             </div>
         </div>
         <div class="row">
@@ -30,8 +30,8 @@
                     </div>
                     <div class="col col-stats ms-3 ms-sm-0">
                     <div class="numbers">
-                        <p class="card-category">Visitors</p>
-                        <h4 class="card-title">1,294</h4>
+                        <p class="card-category">Users</p>
+                        <h4 class="card-title">3</h4>
                     </div>
                     </div>
                 </div>
@@ -51,7 +51,7 @@
                     </div>
                     <div class="col col-stats ms-3 ms-sm-0">
                     <div class="numbers">
-                        <p class="card-category">Subscribers</p>
+                        <p class="card-category">Clients</p>
                         <h4 class="card-title">1303</h4>
                     </div>
                     </div>
@@ -72,8 +72,8 @@
                     </div>
                     <div class="col col-stats ms-3 ms-sm-0">
                     <div class="numbers">
-                        <p class="card-category">Sales</p>
-                        <h4 class="card-title">$ 1,345</h4>
+                        <p class="card-category">Total earnings</p>
+                        <h4 class="card-title">$10,345</h4>
                     </div>
                     </div>
                 </div>
@@ -93,7 +93,7 @@
                     </div>
                     <div class="col col-stats ms-3 ms-sm-0">
                     <div class="numbers">
-                        <p class="card-category">Order</p>
+                        <p class="card-category">Tasks completed</p>
                         <h4 class="card-title">576</h4>
                     </div>
                     </div>
@@ -107,7 +107,7 @@
             <div class="card card-round">
                 <div class="card-header">
                 <div class="card-head-row">
-                    <div class="card-title">User Statistics</div>
+                    <div class="card-title">Clients Statistics</div>
                     <div class="card-tools">
                     <a
                         href="#"
@@ -139,7 +139,7 @@
             <div class="card card-primary card-round">
                 <div class="card-header">
                 <div class="card-head-row">
-                    <div class="card-title">Daily Sales</div>
+                    <div class="card-title">Weekly Earnings</div>
                     <div class="card-tools">
                     <div class="dropdown">
                         <button
@@ -179,7 +179,7 @@
             <div class="card card-round">
                 <div class="card-body pb-0">
                 <div class="h1 fw-bold float-end text-primary">+5%</div>
-                <h2 class="mb-2">17</h2>
+                <h2 class="mb-2">2</h2>
                 <p class="text-muted">Users online</p>
                 <div class="pull-in sparkline-fix">
                     <div id="lineChart"></div>
@@ -193,7 +193,7 @@
             <div class="card card-round">
                 <div class="card-header">
                 <div class="card-head-row card-tools-still-right">
-                    <h4 class="card-title">Users Geolocation</h4>
+                    <h4 class="card-title">Client's Geolocation</h4>
                     <div class="card-tools">
                     <button
                         class="btn btn-icon btn-link btn-primary btn-xs"
@@ -323,7 +323,7 @@
             <div class="card card-round">
                 <div class="card-body">
                 <div class="card-head-row card-tools-still-right">
-                    <div class="card-title">New Customers</div>
+                    <div class="card-title">New Clients</div>
                     <div class="card-tools">
                     <div class="dropdown">
                         <button

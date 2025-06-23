@@ -1,7 +1,7 @@
 {{-- File: resources/views/cms/dashboard.blade.php --}}
 @extends('cms.layouts.master')
 
-@section('title', 'Dashboard')
+@section('title', 'Create User')
 
 @section('content')
     
@@ -151,7 +151,7 @@
                             </div>
                         </div>
                         <div class="card-action">
-                            <button class="btn btn-success" type="submit">Submit</button>
+                            <button class="btn btn-success" type="submit">Save</button>
                             <a href="{{ route('users.index') }}" class="btn btn-danger">Cancel</a>
                         </div>
                     </div>

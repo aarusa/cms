@@ -52,7 +52,7 @@
                                                 @endphp
                                                 @if($assignedRoles->count() > 0)
                                                     @foreach($assignedRoles as $role)
-                                                        <span class="badge bg-success me-1">{{ $role->name }}</span>
+                                                        <span class="badge bg-secondary me-1">{{ $role->name }}</span>
                                                     @endforeach
                                                 @else
                                                     <span class="text-muted">No roles assigned</span>
