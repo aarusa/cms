@@ -21,14 +21,29 @@ class RolePermissionSeeder extends Seeder
         $roleUser = Role::create(['name' => 'User']);
 
         Permission::create(['name' => 'view dashboard']);
-        Permission::create(['name' => 'manage users']);
-        Permission::create(['name' => 'manage roles']);  // example extra permission
+
+        Permission::create(['name' => 'view users']);
+        Permission::create(['name' => 'add user']);
+        Permission::create(['name' => 'edit user']);
+        Permission::create(['name' => 'delete user']);
+
+        Permission::create(['name' => 'view roles']);
+        Permission::create(['name' => 'add role']);
+        Permission::create(['name' => 'edit role']);
+        Permission::create(['name' => 'delete role']);
+
+        Permission::create(['name' => 'view permissions']);
+        Permission::create(['name' => 'add permission']);
+        Permission::create(['name' => 'edit permission']);
+        Permission::create(['name' => 'delete permission']);
+        Permission::create(['name' => 'manage permission']);
+        
 
         // Give all permissions to Super Admin
         $roleSuperAdmin->givePermissionTo(Permission::all());
 
         // Admin and User permissions as before
-        $roleAdmin->givePermissionTo(['view dashboard', 'manage users']);
-        $roleUser->givePermissionTo('view dashboard');
+        $roleAdmin->givePermissionTo(['view dashboard', 'view users', 'add user', 'edit user', 'delete user', 'view roles', 'add role', 'edit role', 'delete role', 'view permissions', 'manage permission']);
+        $roleUser->givePermissionTo('view dashboard', 'view users');
     }
 }
