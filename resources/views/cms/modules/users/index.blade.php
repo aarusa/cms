@@ -16,9 +16,15 @@
                 <h6 class="op-7 mb-2">Overview of all registered users in the system</h6>
             </div>
             <div class="ms-md-auto py-2 py-md-0">
+            @can('view roles')
             <a href="{{ route('roles.index') }}" class="btn btn-label-info btn-round me-2">Manage Roles</a>
+            @endcan
+            @can('view permissions')
             <a href="{{ route('permissions.index') }}" class="btn btn-label-info btn-round me-2">Manage Permissions</a>
+            @endcan
+            @can('add user')
             <a href="{{ route('users.create') }}" class="btn btn-primary btn-round">Add New User</a>
+            @endcan
             </div>
         </div>
         {{-- User contents --}}
