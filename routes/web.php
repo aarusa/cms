@@ -17,28 +17,34 @@ use App\Http\Controllers\CMS\UserController;
 |
 */
 
-// Authentication Routes
-Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('login', [LoginController::class, 'login']);
-Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+// Authentication Routes for Guests only
+Route::middleware('guest')->group(function () {
+    // Login
+    Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('login', [LoginController::class, 'login']);
 
-// Register Routes
-Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
-Route::post('register', [RegisterController::class, 'register']);
-
-// Dashboard (Accessible by any authenticated user)
-Route::get('/', [DashboardController::class, 'index'])
-    ->middleware('auth')
-    ->name('dashboard.index');
-
-// Users module (Accessible only by Super Admin and Admin)
-Route::middleware(['auth', 'role:Super Admin|Admin'])->group(function () {
-    Route::resource('users', UserController::class);
+    // Register
+    Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+    Route::post('register', [RegisterController::class, 'register']);
 });
 
-// Other modules (Accessible by all authenticated users, including regular Users)
-Route::middleware(['auth'])->group(function () {
-    // Example routes
-    Route::get('profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('profile.index');
-    Route::get('settings', [App\Http\Controllers\SettingsController::class, 'index'])->name('settings.index');
+// Logout Route (needs auth)
+Route::post('logout', [LoginController::class, 'logout'])
+    ->middleware('auth')
+    ->name('logout');
+
+// Authenticated Routes
+Route::middleware('auth')->group(function () {
+
+    // Dashboard home
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
+
+    // Users module - only for Super Admin and Admin roles
+    Route::middleware('role:Super Admin|Admin')->group(function () {
+        Route::resource('users', UserController::class);
+    });
+
+    // Other authenticated user routes
+    Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::get('settings', [SettingsController::class, 'index'])->name('settings.index');
 });

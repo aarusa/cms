@@ -25,7 +25,13 @@ class LoginController extends Controller
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
-        ]);
+        ],[
+        'email.required' => 'Please enter your email address.',
+        'email.email' => 'Please enter a valid email address.',
+        'password.required' => 'Please enter your password.',
+        'password.confirmed' => 'Password confirmation does not match.',
+        'password.min' => 'Password must be at least 6 characters long.',
+    ]);
 
         $credentials = $request->only('email', 'password');
 

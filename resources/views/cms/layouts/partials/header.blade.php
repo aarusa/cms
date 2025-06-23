@@ -335,7 +335,7 @@
                 </div>
                 <span class="profile-username">
                     <span class="op-7">Hi,</span>
-                    <span class="fw-bold">Ashish</span>
+                    <span class="fw-bold">{{ Auth::user()->fname }}</span>
                 </span>
                 </a>
                 <ul class="dropdown-menu dropdown-user animated fadeIn">
@@ -350,8 +350,8 @@
                         />
                         </div>
                         <div class="u-text">
-                        <h4>Ashish</h4>
-                        <p class="text-muted">ashish@gmail.com</p>
+                        <h4>{{ Auth::user()->fname }}</h4>
+                        <p class="text-muted">{{ Auth::user()->email }}</p>
                         <a
                             href="profile.html"
                             class="btn btn-xs btn-secondary btn-sm"
