@@ -92,12 +92,11 @@
                                                     @endphp
                                                     @if($canModify && (!$isHiddenPermission || $loggedInUser->hasRole('Super Admin')))
                                                         <form action="{{ route('permissions.revoke', ['roleId' => $role->id, 'permissionId' => $permission->id]) }}" 
-                                                              method="POST" style="display:inline-block">
+                                                              method="POST" style="display:inline-block" class="revoke-permission-form">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button type="submit" class="btn btn-danger btn-sm"
-                                                                    @if($isHiddenPermission && !$loggedInUser->hasRole('Super Admin')) disabled @endif
-                                                                    onclick="return confirm('Remove permission \'{{ $permission->name }}\' from {{ $role->name }}?')">
+                                                            <button type="submit" class="btn btn-danger btn-sm revoke-permission-btn"
+                                                                    @if($isHiddenPermission && !$loggedInUser->hasRole('Super Admin')) disabled @endif>
                                                                 Remove
                                                             </button>
                                                         </form>
@@ -156,9 +155,9 @@
                                                     @endphp
                                                     @if($canModify && (!$isHiddenPermission || $loggedInUser->hasRole('Super Admin')))
                                                         <form action="{{ route('permissions.assign', ['roleId' => $role->id, 'permissionId' => $permission->id]) }}" 
-                                                              method="POST" style="display:inline-block">
+                                                              method="POST" style="display:inline-block" class="assign-permission-form">
                                                             @csrf
-                                                            <button type="submit" class="btn btn-success btn-sm"
+                                                            <button type="submit" class="btn btn-success btn-sm assign-permission-btn"
                                                                     @if($isHiddenPermission && !$loggedInUser->hasRole('Super Admin')) disabled @endif>
                                                                 Assign
                                                             </button>
@@ -242,5 +241,73 @@
             button: "OK",
         });
     @endif
+
+    // SweetAlert confirmation for revoke permission
+    $(document).on('click', '.revoke-permission-btn', function(e) {
+        e.preventDefault();
+        const form = $(this).closest('form');
+        const permissionName = $(this).closest('tr').find('.badge').text();
+        const roleName = '{{ $role->name }}';
+        
+        swal({
+            title: 'Remove Permission?',
+            text: `Are you sure you want to remove permission '${permissionName}' from ${roleName}?`,
+            icon: 'warning',
+            buttons: {
+                cancel: {
+                    text: "Cancel",
+                    value: null,
+                    visible: true,
+                    className: "btn btn-danger",
+                    closeModal: true,
+                },
+                confirm: {
+                    text: "Yes, remove it!",
+                    value: true,
+                    visible: true,
+                    className: "btn btn-primary",
+                    closeModal: true
+                }
+            }
+        }).then((value) => {
+            if (value) {
+                form.submit();
+            }
+        });
+    });
+
+    // SweetAlert confirmation for assign permission
+    $(document).on('click', '.assign-permission-btn', function(e) {
+        e.preventDefault();
+        const form = $(this).closest('form');
+        const permissionName = $(this).closest('tr').find('.badge').text();
+        const roleName = '{{ $role->name }}';
+        
+        swal({
+            title: 'Assign Permission?',
+            text: `Are you sure you want to assign permission '${permissionName}' to ${roleName}?`,
+            icon: 'question',
+            buttons: {
+                cancel: {
+                    text: "Cancel",
+                    value: null,
+                    visible: true,
+                    className: "btn btn-danger",
+                    closeModal: true,
+                },
+                confirm: {
+                    text: "Yes, assign it!",
+                    value: true,
+                    visible: true,
+                    className: "btn btn-primary",
+                    closeModal: true
+                }
+            }
+        }).then((value) => {
+            if (value) {
+                form.submit();
+            }
+        });
+    });
 </script>
 @endpush 

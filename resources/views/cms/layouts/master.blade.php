@@ -32,5 +32,16 @@
 
     @include('cms.layouts.partials.scripts')
 
+    <script>
+    @if(session('error'))
+        swal({
+            icon: 'error',
+            title: 'No Permission',
+            text: "{{ session('error') }}",
+            button: 'OK'
+        });
+    @endif
+    </script>
+
   </body>
 </html>

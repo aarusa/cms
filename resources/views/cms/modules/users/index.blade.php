@@ -64,11 +64,10 @@
                                       <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning btn-sm">Edit</a>
                                     @endcan
                                     @can('delete user')
-                                      <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline-block">
+                                      <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline-block" class="delete-user-form">
                                           @csrf
                                           @method('DELETE')
-                                          <button type="submit" class="btn btn-danger btn-sm"
-                                              onclick="return confirm('Are you sure you want to delete this user?');">
+                                          <button type="submit" class="btn btn-danger btn-sm delete-user-btn">
                                               Delete
                                           </button>
                                       </form>
@@ -114,5 +113,37 @@
               button: "OK",
           });
       @endif
+
+      // SweetAlert confirmation for delete user
+      $(document).on('click', '.delete-user-btn', function(e) {
+          e.preventDefault();
+          const form = $(this).closest('form');
+          
+          swal({
+              title: 'Are you sure?',
+              text: "You won't be able to revert this!",
+              icon: 'warning',
+              buttons: {
+                  cancel: {
+                      text: "Cancel",
+                      value: null,
+                      visible: true,
+                      className: "btn btn-danger",
+                      closeModal: true,
+                  },
+                  confirm: {
+                      text: "Yes, delete it!",
+                      value: true,
+                      visible: true,
+                      className: "btn btn-primary",
+                      closeModal: true
+                  }
+              }
+          }).then((value) => {
+              if (value) {
+                  form.submit();
+              }
+          });
+      });
   </script>
 @endpush

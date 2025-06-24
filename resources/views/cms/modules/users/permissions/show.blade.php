@@ -171,26 +171,25 @@
                                                 @if($canModify)
                                                     @if($role->hasPermissionTo($permission->name))
                                                         <form action="{{ route('permissions.revoke', ['roleId' => $role->id, 'permissionId' => $permission->id]) }}" 
-                                                              method="POST" style="display:inline-block">
+                                                              method="POST" style="display:inline-block" class="revoke-permission-form">
                                                             @csrf
                                                             @method('DELETE')
                                                             @can('manage permission')
-                                                            <button type="submit" class="btn btn-danger btn-sm"
-                                                                    onclick="return confirm('Remove this permission from {{ $role->name }}?')">
+                                                            <button type="submit" class="btn btn-danger btn-sm revoke-permission-btn">
                                                                 <i class="fas fa-minus-circle me-1"></i>Remove
                                                             </button>
                                                             @endcan
                                                         </form>
                                                     @else
                                                         <form action="{{ route('permissions.assign', ['roleId' => $role->id, 'permissionId' => $permission->id]) }}" 
-                                                              method="POST" style="display:inline-block">
+                                                              method="POST" style="display:inline-block" class="assign-permission-form">
                                                             @csrf
                                                             @can('manage permission')
-                                                            <button type="submit" class="btn btn-success btn-sm">
+                                                            <button type="submit" class="btn btn-success btn-sm assign-permission-btn">
                                                                 <i class="fas fa-plus-circle me-1"></i>Assign
                                                             </button>
+                                                            @endcan
                                                         </form>
-                                                        @endcan
                                                     @endif
                                                 @else
                                                     <span class="text-muted">
@@ -216,12 +215,90 @@
 <script>
     // Check for success message
     @if (session('success'))
-        showAlertOnce('success', "{{ session('success') }}");
+        swal({
+            title: "Success!",
+            text: "{{ session('success') }}",
+            icon: "success",
+            button: "OK",
+        });
     @endif
 
     // Check for error message
     @if (session('error'))
-        showAlertOnce('error', "{{ session('error') }}");
+        swal({
+            title: "Error!",
+            text: "{{ session('error') }}",
+            icon: "error",
+            button: "OK",
+        });
     @endif
+
+    // SweetAlert confirmation for revoke permission
+    $(document).on('click', '.revoke-permission-btn', function(e) {
+        e.preventDefault();
+        const form = $(this).closest('form');
+        const roleName = $(this).closest('tr').find('strong').text();
+        const permissionName = '{{ $permission->name }}';
+        
+        swal({
+            title: 'Remove Permission?',
+            text: `Are you sure you want to remove permission '${permissionName}' from ${roleName}?`,
+            icon: 'warning',
+            buttons: {
+                cancel: {
+                    text: "Cancel",
+                    value: null,
+                    visible: true,
+                    className: "btn btn-danger",
+                    closeModal: true,
+                },
+                confirm: {
+                    text: "Yes, remove it!",
+                    value: true,
+                    visible: true,
+                    className: "btn btn-primary",
+                    closeModal: true
+                }
+            }
+        }).then((value) => {
+            if (value) {
+                form.submit();
+            }
+        });
+    });
+
+    // SweetAlert confirmation for assign permission
+    $(document).on('click', '.assign-permission-btn', function(e) {
+        e.preventDefault();
+        const form = $(this).closest('form');
+        const roleName = $(this).closest('tr').find('strong').text();
+        const permissionName = '{{ $permission->name }}';
+        
+        swal({
+            title: 'Assign Permission?',
+            text: `Are you sure you want to assign permission '${permissionName}' to ${roleName}?`,
+            icon: 'question',
+            buttons: {
+                cancel: {
+                    text: "Cancel",
+                    value: null,
+                    visible: true,
+                    className: "btn btn-danger",
+                    closeModal: true,
+                },
+                confirm: {
+                    text: "Yes, assign it!",
+                    value: true,
+                    visible: true,
+                    className: "btn btn-primary",
+                    closeModal: true
+                }
+            }
+        }).then((value) => {
+            if (value) {
+                form.submit();
+            }
+        });
+    });
 </script>
 @endpush 

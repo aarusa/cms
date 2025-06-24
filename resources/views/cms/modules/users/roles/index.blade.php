@@ -59,15 +59,13 @@
                                         <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-warning btn-sm">Edit</a>
                                     @endcan
                                     @can('delete role')
-
-                                        <form action="{{ route('roles.destroy', $role->id) }}" method="POST" style="display:inline-block">
-                                          @csrf
-                                          @method('DELETE')
-                                          <button type="submit" class="btn btn-danger btn-sm"
-                                              onclick="return confirm('Are you sure you want to delete this role?');">
-                                              Delete
-                                          </button>
-                                      </form>
+                                        <form action="{{ route('roles.destroy', $role->id) }}" method="POST" style="display:inline-block" class="delete-role-form">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm delete-role-btn">
+                                                Delete
+                                            </button>
+                                        </form>
                                     @endcan
                                     @else
                                         <span class="badge bg-secondary">Protected</span>
@@ -109,5 +107,37 @@
               button: "OK",
           });
       @endif
+
+      // SweetAlert confirmation for delete role
+      $(document).on('click', '.delete-role-btn', function(e) {
+          e.preventDefault();
+          const form = $(this).closest('form');
+          
+          swal({
+              title: 'Are you sure?',
+              text: "You won't be able to revert this!",
+              icon: 'warning',
+              buttons: {
+                  cancel: {
+                      text: "Cancel",
+                      value: null,
+                      visible: true,
+                      className: "btn btn-danger",
+                      closeModal: true,
+                  },
+                  confirm: {
+                      text: "Yes, delete it!",
+                      value: true,
+                      visible: true,
+                      className: "btn btn-primary",
+                      closeModal: true
+                  }
+              }
+          }).then((value) => {
+              if (value) {
+                  form.submit();
+              }
+          });
+      });
   </script>
   @endpush

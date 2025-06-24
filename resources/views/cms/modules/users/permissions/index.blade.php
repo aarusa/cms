@@ -69,11 +69,10 @@
                                                 @endcan
                                                 @can('delete permission')
                                                 @if($permission->roles()->count() == 0)
-                                                    <form action="{{ route('permissions.destroy', $permission->id) }}" method="POST" style="display:inline-block">
+                                                    <form action="{{ route('permissions.destroy', $permission->id) }}" method="POST" style="display:inline-block" class="delete-permission-form">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger btn-sm"
-                                                            onclick="return confirm('Are you sure you want to delete this permission?');">
+                                                        <button type="submit" class="btn btn-danger btn-sm delete-permission-btn">
                                                             Delete
                                                         </button>
                                                     </form>
@@ -162,5 +161,37 @@
             button: "OK",
         });
     @endif
+
+    // SweetAlert confirmation for delete permission
+    $(document).on('click', '.delete-permission-btn', function(e) {
+        e.preventDefault();
+        const form = $(this).closest('form');
+        
+        swal({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            buttons: {
+                cancel: {
+                    text: "Cancel",
+                    value: null,
+                    visible: true,
+                    className: "btn btn-danger",
+                    closeModal: true,
+                },
+                confirm: {
+                    text: "Yes, delete it!",
+                    value: true,
+                    visible: true,
+                    className: "btn btn-primary",
+                    closeModal: true
+                }
+            }
+        }).then((value) => {
+            if (value) {
+                form.submit();
+            }
+        });
+    });
 </script>
 @endpush
