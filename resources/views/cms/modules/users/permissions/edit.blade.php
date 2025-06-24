@@ -47,7 +47,7 @@
                             </div>
                             
                             <div class="form-group mt-4">
-                                <button type="submit" class="btn btn-primary">Update Permission</button>
+                                <button type="submit" class="btn btn-info">Update Permission</button>
                                 <a href="{{ route('permissions.index') }}" class="btn btn-secondary">Cancel</a>
                             </div>
                         </form>

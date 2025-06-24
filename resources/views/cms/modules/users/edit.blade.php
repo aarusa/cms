@@ -141,7 +141,7 @@
                             </div>
                         </div>
                         <div class="card-action">
-                            <button class="btn btn-success" type="submit">Update</button>
+                            <button class="btn btn-info" type="submit">Update</button>
                             <a href="{{ route('users.index') }}" class="btn btn-danger">Cancel</a>
                         </div>
                     </div>

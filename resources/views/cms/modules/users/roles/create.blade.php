@@ -42,7 +42,7 @@
                             </div>
                         </div>
                         <div class="card-action">
-                            <button class="btn btn-success" type="submit">Save</button>
+                            <button class="btn btn-info" type="submit">Save</button>
                             <a href="{{ route('roles.index') }}" class="btn btn-danger">Cancel</a>
                         </div>
                     </div>
