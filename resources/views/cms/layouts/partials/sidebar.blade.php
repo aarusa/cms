@@ -102,7 +102,7 @@
         </li>
         @endcanany
         {{-- Settings --}}
-        <li class="nav-item">
+        {{-- <li class="nav-item">
             <a data-bs-toggle="collapse" href="#settings">
                 <i class="fas fa-cog"></i>
                 <p>Settings</p>
@@ -122,7 +122,7 @@
                     </li>
                 </ul>
             </div>
-        </li>
+        </li> --}}
     </ul>
     </div>
 </div>
